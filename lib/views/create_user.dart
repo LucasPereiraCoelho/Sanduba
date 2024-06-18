@@ -1,6 +1,5 @@
 import 'package:app_delivery/components/my_input.dart';
 import 'package:app_delivery/services/firebase_connect.dart';
-import 'package:app_delivery/views/home_page.dart';
 import 'package:app_delivery/views/login_page.dart';
 import 'package:flutter/material.dart';
 

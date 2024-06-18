@@ -4,8 +4,12 @@ import 'package:app_delivery/views/cart.dart';
 
 class FoodItemDetailsPage extends StatelessWidget {
   final Map<String, String> foodItem;
+  final Function(Map<String, String>) addToCart;
 
-  const FoodItemDetailsPage({required this.foodItem});
+  const FoodItemDetailsPage({
+    required this.foodItem,
+    required this.addToCart,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +34,15 @@ class FoodItemDetailsPage extends StatelessWidget {
                   SizedBox(height: 16.0),
                   Text(foodItem['price'] ?? ''),
                   SizedBox(height: 16.0),
-                  Text('Avaliações:'), // Adicione a seção de avaliações aqui
+                  Text('Avaliações:'), 
                   SizedBox(height: 16.0),
-                  Text('Localização:'), // Adicione a seção de localização aqui
+                  Text('Localização:'), 
                   SizedBox(height: 16.0),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CartPage(
-                            cartItems: [foodItem], // Passando o item para o carrinho
-                          ),
-                        ),
-                      );
+                      addToCart(foodItem);
+                      Navigator.pop(context); 
                     },
                     child: Text('Adicionar ao Carrinho'),
                   ),

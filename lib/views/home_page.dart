@@ -1,7 +1,9 @@
+import 'package:app_delivery/views/user.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery/views/feedback.dart';
 import 'package:app_delivery/views/wishlist_page.dart.dart';
 import 'package:app_delivery/views/item_detail.dart';
+import 'package:app_delivery/views/cart.dart';
 import 'package:app_delivery/components/my_BottomNavigation.dart';
 import 'package:app_delivery/components/my_appBar.dart';
 
@@ -54,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   List<Map<String, String>> _favoriteItems = [];
+  List<Map<String, String>> _cartItems = [];
 
   void _toggleFavorite(Map<String, String> foodItem) {
     setState(() {
@@ -62,6 +65,18 @@ class _HomePageState extends State<HomePage> {
       } else {
         _favoriteItems.add(foodItem);
       }
+    });
+  }
+
+  void _addToCart(Map<String, String> foodItem) {
+    setState(() {
+      _cartItems.add(foodItem);
+    });
+  }
+
+  void _removeFromCart(Map<String, String> foodItem) {
+    setState(() {
+      _cartItems.remove(foodItem);
     });
   }
 
@@ -89,14 +104,18 @@ class _HomePageState extends State<HomePage> {
           foodItems: _foodItems,
           favoriteItems: _favoriteItems,
           onFavoriteToggle: _toggleFavorite,
+          addToCart: _addToCart,
         ),
         WishlistPage(
           favoriteItems: _favoriteItems,
-          onFavoriteToggle: _toggleFavorite, // Passando a função correta aqui
+          onFavoriteToggle: _toggleFavorite,
         ),
-        Text('Cart Page Content'),
+        CartPage(
+          cartItems: _cartItems,
+          onRemove: _removeFromCart,
+        ),
         FeedbackPage(),
-        Text('User Page Content'),
+        UpdateUser(),
       ];
 }
 
@@ -104,11 +123,13 @@ class HomeContent extends StatelessWidget {
   final List<Map<String, String>> foodItems;
   final List<Map<String, String>> favoriteItems;
   final Function(Map<String, String>) onFavoriteToggle;
+  final Function(Map<String, String>) addToCart;
 
   const HomeContent({
     required this.foodItems,
     required this.favoriteItems,
     required this.onFavoriteToggle,
+    required this.addToCart,
   });
 
   @override
@@ -162,7 +183,10 @@ class HomeContent extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => FoodItemDetailsPage(foodItem: item),
+                      builder: (context) => FoodItemDetailsPage(
+                        foodItem: item,
+                        addToCart: addToCart,
+                      ),
                     ),
                   );
                 },

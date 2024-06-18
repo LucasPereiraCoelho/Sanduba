@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:app_delivery/components/my_appBar.dart';
-import 'package:app_delivery/components/my_BottomNavigation.dart';
-import 'package:app_delivery/views/home_page.dart';
+
 
 class CartPage extends StatelessWidget {
   final List<Map<String, String>> cartItems;
+  final Function(Map<String, String>) onRemove;
 
-  const CartPage({required this.cartItems});
+  const CartPage({
+    required this.cartItems,
+    required this.onRemove,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(title: 'Carrinho'),
       body: ListView.builder(
         itemCount: cartItems.length,
         itemBuilder: (context, index) {
@@ -22,7 +23,7 @@ class CartPage extends StatelessWidget {
             imageUrl: item['imageUrl'] ?? '',
             price: item['price'] ?? '',
             onRemove: () {
-              // Implemente a lógica para remover o item do carrinho
+              onRemove(item);
             },
           );
         },

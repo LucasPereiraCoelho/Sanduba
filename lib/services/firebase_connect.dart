@@ -48,3 +48,24 @@ sendFeedback(feedback) async {
     print('erro');
   }
 }
+
+
+update(String name, String phone) async {
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  var auth = FirebaseAuth.instance;
+
+  var db = FirebaseFirestore.instance;
+
+  await db.collection('Users').doc(auth.currentUser!.uid).set({
+
+    'name': name,
+
+    'email': auth.currentUser!.email,
+
+    'telefone': phone,
+
+  });
+
+}
