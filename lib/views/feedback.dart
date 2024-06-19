@@ -12,11 +12,11 @@ class FeedbackPage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Expanded(
-            child: MyInput(placeholder: 'Feedback', type: false, controller: texto,),
+            child: MyInput(placeholder: 'Feedback', type: false, controller: texto),
           ),
           ElevatedButton(
             onPressed: () {
-              sendFeedback(texto);
+              sendFeedback(texto.text);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text('Feedback enviado!')),
               );

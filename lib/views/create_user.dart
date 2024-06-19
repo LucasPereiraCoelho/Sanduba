@@ -19,12 +19,12 @@ class CreateUser extends StatelessWidget {
       FlutterLogo(
         size: 70,
       ),
-        MyInput(
+      MyInput(
         controller: nameController,
         placeholder: "Nome",
         type: false,
       ),
-        MyInput(
+      MyInput(
         controller: contactController,
         placeholder: "Contato",
         type: false,
@@ -45,26 +45,27 @@ class CreateUser extends StatelessWidget {
         type: true,
       ),
       ElevatedButton(
-            onPressed: () async {
-                var user = await register(emailController.text, passwordController.text, nameController.text, contactController.text);
-              if (passwordController.text == passwordController2.text) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(user.toString()),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 3),
-                  ),
-                );
-              }
-            },
-            child: Text('Cadastrar'),
-          ),
+        onPressed: () async {
+          await register(emailController.text, passwordController.text,
+              nameController.text, contactController.text);
+          if (passwordController.text == passwordController2.text) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("ERRO"),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 3),
+              ),
+            );
+          }
+        },
+        child: Text('Cadastrar'),
+      ),
     ]));
   }
 }

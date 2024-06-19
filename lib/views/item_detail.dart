@@ -1,12 +1,12 @@
+import 'package:app_delivery/services/firebase_connect.dart';
 import 'package:flutter/material.dart';
 import 'package:app_delivery/components/my_appBar.dart';
-import 'package:app_delivery/views/cart.dart';
 
-class FoodItemDetailsPage extends StatelessWidget {
+class DetailsPage extends StatelessWidget {
   final Map<String, String> foodItem;
   final Function(Map<String, String>) addToCart;
 
-  const FoodItemDetailsPage({
+  const DetailsPage({
     required this.foodItem,
     required this.addToCart,
   });
@@ -40,8 +40,9 @@ class FoodItemDetailsPage extends StatelessWidget {
                   SizedBox(height: 16.0),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () {
-                      addToCart(foodItem);
+                    onPressed: () async {
+                      await addToCart(foodItem);
+                      addCart(foodItem);
                       Navigator.pop(context); 
                     },
                     child: Text('Adicionar ao Carrinho'),

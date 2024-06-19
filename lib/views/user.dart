@@ -1,7 +1,6 @@
 import 'package:app_delivery/components/my_input.dart';
 import 'package:app_delivery/services/firebase_connect.dart';
 import 'package:app_delivery/views/home_page.dart';
-import 'package:app_delivery/views/login_page.dart';
 import 'package:flutter/material.dart';
 
 class UpdateUser extends StatelessWidget {
@@ -9,11 +8,11 @@ class UpdateUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
     TextEditingController nameController = TextEditingController();
     TextEditingController contactController = TextEditingController();
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 168, 168, 168),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       MyInput(
         controller: nameController,
@@ -23,11 +22,6 @@ class UpdateUser extends StatelessWidget {
       MyInput(
         controller: contactController,
         placeholder: "Contato",
-        type: false,
-      ),
-      MyInput(
-        controller: emailController,
-        placeholder: "Email",
         type: false,
       ),
       ElevatedButton(
