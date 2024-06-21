@@ -1,5 +1,7 @@
 # app_delivery
 
+Para pleno funcionanmento deve-se configurar um arquivo Firebase.
+
 A new Flutter project.
 
 ## Getting Started
