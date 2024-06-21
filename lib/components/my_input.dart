@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyInput extends StatelessWidget {
-  String placeholder;
-  bool type;
-  TextEditingController controller;
+  final String placeholder;
+  final bool type;
+  final TextEditingController controller;
+  final bool showSearchIcon;
 
-  MyInput({Key? key, required this.placeholder, required this.type, required this.controller})
+  MyInput({Key? key, required this.placeholder, required this.type, required this.controller, this.showSearchIcon = false})
       : super(key: key);
 
   @override
@@ -16,7 +17,12 @@ class MyInput extends StatelessWidget {
         controller: controller,
         obscureText: type,
         decoration: InputDecoration(
-            border: OutlineInputBorder(), hintText: placeholder),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(),
+          hintText: placeholder,
+          prefixIcon: showSearchIcon ? Icon(Icons.search) : null,
+        ),
       ),
     );
   }

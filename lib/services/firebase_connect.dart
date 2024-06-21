@@ -72,7 +72,7 @@ addToFavorites(Map<String, String> foodItem) async {
     'items': FieldValue.arrayUnion([foodItem]),
   }, SetOptions(merge: true));
 }
- 
+
 removeFromFavorites(Map<String, String> foodItem) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   var auth = FirebaseAuth.instance;
@@ -81,7 +81,7 @@ removeFromFavorites(Map<String, String> foodItem) async {
     'items': FieldValue.arrayRemove([foodItem]),
   }, SetOptions(merge: true));
 }
- 
+
 getFavorites() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   var auth = FirebaseAuth.instance;
@@ -89,7 +89,8 @@ getFavorites() async {
   var doc = await db.collection('Favorites').doc(auth.currentUser!.uid).get();
   if (doc.exists && doc.data() != null) {
     List<dynamic> items = doc.data()!['items'];
-    return List<Map<String, String>>.from(items.map((item) => Map<String, String>.from(item)));
+    return List<Map<String, String>>.from(
+        items.map((item) => Map<String, String>.from(item)));
   }
   return [];
 }
@@ -119,18 +120,42 @@ getCartItems() async {
   var doc = await db.collection('Cart').doc(auth.currentUser!.uid).get();
   if (doc.exists && doc.data() != null) {
     List<dynamic> items = doc.data()!['items'];
-    return List<Map<String, String>>.from(items.map((item) => Map<String, String>.from(item)));
+    return List<Map<String, String>>.from(
+        items.map((item) => Map<String, String>.from(item)));
   }
   return [];
 }
 
-getImage(image) async{
+Future<List<Map<String, dynamic>>> getItems() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final storage = FirebaseStorage.instance;
+  var db = FirebaseFirestore.instance;
+  var querySnapshot = await db.collection('Items').get();
 
-  final ref = storage.ref().child(image);
-  final url = await ref.getDownloadURL();
-  
-  return url;
+  return querySnapshot.docs
+      .map((doc) => {
+            'name': doc.data()['nome'],
+            'description': doc.data()['descricao'],
+            'imageUrl': doc.data()['imagem'],
+            'price': doc.data()['preco']
+          })
+      .toList();
+}
+
+Future<void> finalizePurchase(List<Map<String, String>> cartItems) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  var auth = FirebaseAuth.instance;
+  var db = FirebaseFirestore.instance;
+
+  try {
+    await db.collection('Purchases').add({
+      'userId': auth.currentUser!.uid,
+      'items': cartItems,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+
+    await db.collection('Cart').doc(auth.currentUser!.uid).delete();
+  } catch (e) {
+    print('Erro ao finalizar compra: $e');
+  }
 }

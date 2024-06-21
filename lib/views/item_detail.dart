@@ -1,5 +1,5 @@
-import 'package:app_delivery/services/firebase_connect.dart';
 import 'package:flutter/material.dart';
+import 'package:app_delivery/services/firebase_connect.dart';
 import 'package:app_delivery/components/my_appBar.dart';
 
 class DetailsPage extends StatelessWidget {
@@ -30,20 +30,23 @@ class DetailsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(foodItem['description'] ?? ''),
+                  Text('Descrição: ${foodItem['description'] ?? ''}'),
                   SizedBox(height: 16.0),
-                  Text(foodItem['price'] ?? ''),
-                  SizedBox(height: 16.0),
-                  Text('Avaliações:'), 
-                  SizedBox(height: 16.0),
-                  Text('Localização:'), 
+                  Text('Preço: R\$ ${foodItem['price'] ?? ''}'),
                   SizedBox(height: 16.0),
                   ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                    ),
                     onPressed: () async {
                       await addToCart(foodItem);
                       addCart(foodItem);
-                      Navigator.pop(context); 
+                      Navigator.pop(context);
                     },
                     child: Text('Adicionar ao Carrinho'),
                   ),

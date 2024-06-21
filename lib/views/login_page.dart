@@ -13,56 +13,97 @@ class LoginPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FlutterLogo(
-            size: 70,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.orange, Colors.redAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          MyInput(
-            controller: emailController,
-            placeholder: "Email",
-            type: false,
-          ),
-          MyInput(
-            controller: passwordController,
-            placeholder: "Senha",
-            type: true,
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              var auth =
-                  await login(emailController.text, passwordController.text);
-
-              if (auth == true) {
-                Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ));
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Usuário ou senha incorrta.'),
-                    backgroundColor: Colors.red,
-                    duration: Duration(seconds: 3),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  'Sanduba',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-                );
-              }
-            },
-            child: Text('Entrar'),
+                ),
+                SizedBox(height: 40),
+                MyInput(
+                  controller: emailController,
+                  placeholder: "Email",
+                  type: false,
+                ),
+                SizedBox(height: 20),
+                MyInput(
+                  controller: passwordController,
+                  placeholder: "Senha",
+                  type: true,
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                    textStyle: TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () async {
+                    var auth = await login(
+                        emailController.text, passwordController.text);
+
+                    if (auth == true) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Usuário ou senha incorretos.'),
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('Entrar'),
+                ),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CreateUser(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    'Criar usuário',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CreateUser(),
-                  ));
-            },
-            child: Text('Criar usuário'),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -36,10 +36,11 @@ class MyBottomNavigation extends StatelessWidget {
         ),
       ],
       currentIndex: currentIndex,
-      selectedItemColor: Colors.amber[800],
-      unselectedItemColor: const Color.fromARGB(255, 109, 109, 109),
-      backgroundColor: Colors.red, 
+      selectedItemColor: Colors.red,
+      unselectedItemColor: Colors.grey,
+      backgroundColor: Colors.white, 
       onTap: onTap,
+      type: BottomNavigationBarType.fixed, 
     );
   }
 }

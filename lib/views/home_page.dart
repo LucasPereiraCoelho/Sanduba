@@ -8,7 +8,6 @@ import 'package:app_delivery/views/user.dart';
 import 'package:app_delivery/views/wishlist_page.dart.dart';
 import 'package:flutter/material.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -18,51 +17,36 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  final List<Map<String, String>> _foodItems = [
-    {
-      'name': 'Coca-Cola',
-      'description': 'Refrigerante de Cola 350ml',
-      'imageUrl': 'https://via.placeholder.com/150',
-      'price': 'R\$ 5,00'
-    },
-    {
-      'name': 'Hambúrguer',
-      'description': 'Hambúrguer artesanal com queijo e bacon',
-      'imageUrl': 'https://via.placeholder.com/150',
-      'price': 'R\$ 15,00'
-    },
-    {
-      'name': 'Sorvete',
-      'description': 'Sorvete de chocolate 500ml',
-      'imageUrl': 'https://via.placeholder.com/150',
-      'price': 'R\$ 10,00'
-    },
-    {
-      'name': 'Pizza',
-      'description': 'Pizza de mussarela',
-      'imageUrl': 'https://via.placeholder.com/150',
-      'price': 'R\$ 25,00'
-    },
-    {
-      'name': 'Suco de Laranja',
-      'description': 'Suco de laranja natural 500ml',
-      'imageUrl': 'https://via.placeholder.com/150',
-      'price': 'R\$ 7,00'
-    },
-  ];
-
+  List<Map<String, String>> _foodItems = [];
   List<Map<String, String>> _favoriteItems = [];
   List<Map<String, String>> _cartItems = [];
 
   @override
   void initState() {
     super.initState();
+    _loadFoodItems();
     _loadFavorites();
   }
 
+  void _loadFoodItems() async {
+    List<Map<String, dynamic>> items = await getItems();
+    List<Map<String, String>> foodItems = items.map((item) => {
+      'name': item['name'] as String,
+      'description': item['description'] as String,
+      'imageUrl': item['imageUrl'] as String,
+      'price': item['price'] as String,
+    }).toList();
+
+    setState(() {
+      _foodItems = foodItems;
+    });
+  }
+
   Future<void> _loadFavorites() async {
-    _favoriteItems = await getFavorites();
-    setState(() {});
+    List<Map<String, String>> favoriteItems = await getFavorites();
+    setState(() {
+      _favoriteItems = favoriteItems;
+    });
   }
 
   void _toggleFavorite(Map<String, String> foodItem) async {
@@ -98,12 +82,23 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 168, 168, 168),
-      appBar: MyAppBar(title: 'Sanduba'),
-      body: _widgetOptions().elementAt(_selectedIndex),
-      bottomNavigationBar: MyBottomNavigation(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.orange, Colors.redAccent],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: MyAppBar(title: 'Sanduba'),
+          body: _widgetOptions().elementAt(_selectedIndex),
+          bottomNavigationBar: MyBottomNavigation(
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+          ),
+        ),
       ),
     );
   }

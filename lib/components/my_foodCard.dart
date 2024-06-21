@@ -37,7 +37,7 @@ class FoodCard extends StatelessWidget {
             Text(description),
             SizedBox(height: 4.0),
             Text(
-              price,
+              'R\$ $price',
               style: TextStyle(
                 color: Colors.green,
                 fontWeight: FontWeight.bold,

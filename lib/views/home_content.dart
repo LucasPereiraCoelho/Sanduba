@@ -1,8 +1,8 @@
 import 'package:app_delivery/components/my_foodCard.dart';
+import 'package:app_delivery/components/my_input.dart';
 import 'package:app_delivery/views/category_button.dart';
 import 'package:app_delivery/views/item_detail.dart';
 import 'package:flutter/material.dart';
-
 
 class HomeContent extends StatelessWidget {
   final List<Map<String, String>> foodItems;
@@ -19,18 +19,17 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = TextEditingController();
+
     return Column(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              prefixIcon: Icon(Icons.search),
-            ),
+          child: MyInput(
+            placeholder: 'Pesquisar',
+            type: false,
+            controller: controller,
+            showSearchIcon: true,
           ),
         ),
         Padding(
